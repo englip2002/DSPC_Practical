@@ -42,7 +42,6 @@ void d() {
 		printf("private: x is %d\n", x);
 	}
 	printf("after: x is %d\n", x); // also dangerous
-	return 0;
 }
 
 int main()
@@ -51,4 +50,5 @@ int main()
 	b();
 	c();
 	d();
+	return 0;
 }
