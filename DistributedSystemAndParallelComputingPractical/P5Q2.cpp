@@ -47,29 +47,18 @@ int parallel() {
 	double runtime;
 
 	runtime = omp_get_wtime();
-	omp_set_num_threads(NUM_THREADS);
+	//omp_set_num_threads(NUM_THREADS);
 
-#pragma omp parallel shared(salaries1, salaries2)
-	{
-#pragma omp for reduction(+:salaries1)
-		for (int employee = 0; employee < MAX_EMPLOYEE; employee++) {
-			salaries1 += fetchTheSalary(employee, Co::Company1);
-		}
 
-#pragma omp critical
-		{
-			std::cout << "Salaries1: " << salaries1 << std::endl;
-		}
-
-#pragma omp for reduction(+:salaries2)
-		for (int employee = 0; employee < MAX_EMPLOYEE; employee++) {
-			salaries2 += fetchTheSalary(employee, Co::Company2);
-		}
-#pragma omp critical
-		{
-			std::cout << "Salaries2: " << salaries2 << std::endl;
-		}
+#pragma omp parallel for reduction(+:salaries1, salaries2)
+	for (int employee = 0; employee < MAX_EMPLOYEE; employee++) {
+		salaries1 += fetchTheSalary(employee, Co::Company1);
+		salaries2 += fetchTheSalary(employee, Co::Company2);
 	}
+	std::cout << "Salaries1: " << salaries1 << std::endl;
+	std::cout << "Salaries2: " << salaries2 << std::endl;
+
+
 	runtime = omp_get_wtime() - runtime;
 	std::cout << "In " << runtime << "seconds";
 	return 0;

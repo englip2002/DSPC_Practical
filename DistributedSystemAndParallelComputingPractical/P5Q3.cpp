@@ -56,7 +56,7 @@ int parallel() {
 			salaries1 += fetchTheSalary(employee, Co::Company1);
 		}
 
-#pragma omp critical
+#pragma omp single
 		{
 			std::cout << "Salaries1: " << salaries1 << std::endl;
 		}
@@ -65,7 +65,7 @@ int parallel() {
 		for (int employee = 0; employee < MAX_EMPLOYEE; employee++) {
 			salaries2 += fetchTheSalary(employee, Co::Company2);
 		}
-#pragma omp critical
+#pragma omp single
 		{
 			std::cout << "Salaries2: " << salaries2 << std::endl;
 		}

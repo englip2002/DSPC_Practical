@@ -48,5 +48,17 @@
     <ClCompile Include="P5Q1.cpp">
       <Filter>Source Files\Practical5</Filter>
     </ClCompile>
+    <ClCompile Include="P5Q2.cpp">
+      <Filter>Source Files\Practical5</Filter>
+    </ClCompile>
+    <ClCompile Include="P5Q3.cpp">
+      <Filter>Source Files\Practical5</Filter>
+    </ClCompile>
+    <ClCompile Include="P5Q4.cpp">
+      <Filter>Source Files\Practical5</Filter>
+    </ClCompile>
+    <ClCompile Include="P5Q5.cpp">
+      <Filter>Source Files\Practical5</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
