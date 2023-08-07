@@ -19,6 +19,9 @@
     <Filter Include="Source Files\Practical4">
       <UniqueIdentifier>{3e105429-4a38-40ed-b523-bb99b3dfcbd0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Practical5">
+      <UniqueIdentifier>{fed2dbdb-f4a9-4bfa-9f07-bc956db2199c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="P3Q1.cpp">
@@ -41,6 +44,9 @@
     </ClCompile>
     <ClCompile Include="P4Q4.cpp">
       <Filter>Source Files\Practical4</Filter>
+    </ClCompile>
+    <ClCompile Include="P5Q1.cpp">
+      <Filter>Source Files\Practical5</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
