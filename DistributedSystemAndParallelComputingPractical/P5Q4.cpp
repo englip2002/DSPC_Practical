@@ -3,7 +3,7 @@
 #include <mutex>
 #include <vector>
 
-std::mutex;
+std::mutex increment;
 
 void countEven(const std::vector<int>& numbers,
 	int& numEven)
@@ -12,7 +12,11 @@ void countEven(const std::vector<int>& numbers,
 	{
 		if (n % 2 == 0)
 		{
+			//if not lock the data may be clashed
+			//increment.lock();
 			numEven++;
+			std::cout << "thread: " << numEven << std::endl;
+			//increment.unlock();
 		}
 	}
 }
@@ -35,6 +39,7 @@ int main() {
 
 	std::thread t1(countEven, std::ref(numbers1), std::ref(n));
 	std::thread t2(countEven, std::ref(numbers2), std::ref(n));
+
 
 	t1.join();
 	t2.join();
