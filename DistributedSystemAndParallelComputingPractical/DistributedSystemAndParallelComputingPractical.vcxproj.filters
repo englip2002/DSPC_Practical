@@ -66,5 +66,14 @@
     <ClCompile Include="P6Q1.cpp">
       <Filter>Source Files\Practical6</Filter>
     </ClCompile>
+    <ClCompile Include="P6Q2.cpp">
+      <Filter>Source Files\Practical6</Filter>
+    </ClCompile>
+    <ClCompile Include="P6Q3.cpp">
+      <Filter>Source Files\Practical6</Filter>
+    </ClCompile>
+    <ClCompile Include="P6Q4.cpp">
+      <Filter>Source Files\Practical6</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
