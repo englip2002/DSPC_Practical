@@ -4,6 +4,7 @@
 #include "stdio.h"
 #include "mpi.h"
 #include <iostream>
+using namespace std;
 
 int main(int argc, char** argv)
 {
@@ -33,3 +34,5 @@ int main(int argc, char** argv)
 
 //MPI_Send(&value, 1, MPI_INT, rank + 1, 0, MPI_COMM_WORLD);
 //MPI_Recv(&value, 1, MPI_INT, rank - 1, 0, MPI_COMM_WORLD, &status);
+
+
