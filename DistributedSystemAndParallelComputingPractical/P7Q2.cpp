@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <omp.h>
+#include <iostream>
+using namespace std;
 
 #ifndef N
 #define N 5
@@ -11,6 +13,7 @@
 #ifndef FS
 #define FS 38
 #endif
+#define MAX 10
 
 struct node {
     int data;
@@ -57,7 +60,8 @@ struct node* init_list(struct node* p) {
     return head;
 }
 
-int main(int argc, char* argv[]) {
+void serial()
+{
     double start, end;
     struct node* p = NULL;
     struct node* temp = NULL;
@@ -69,27 +73,56 @@ int main(int argc, char* argv[]) {
 
     p = init_list(p);
     head = p;
+    start = omp_get_wtime();
+    {
+        while (p != NULL) {
+            processwork(p);
+            p = p->next;
+        }
+    }
+
+
+    end = omp_get_wtime();
+    p = head;
+    while (p != NULL) {
+        printf("%d : %d\n", p->data, p->fibdata);
+        temp = p->next;
+        free(p);
+        p = temp;
+    }
+    free(p);
+
+    printf("Serial: Compute Time: %f seconds\n", end - start);
+}
+
+void parallel() {
+    double start, end;
+    struct node* p = NULL;
+    struct node* temp = NULL;
+    struct node* head = NULL;
+    struct node* parr[MAX];
+    int i, count = 0;
+
+    printf("Process linked list\n");
+    printf("  Each linked list node will be processed by function 'processwork()'\n");
+    printf("  Each ll node will compute %d fibonacci numbers beginning with %d\n", N, FS);
+
+    p = init_list(p);
+    head = p;
 
     start = omp_get_wtime();
-    //{
-    //    while (p != NULL) {
-    //        processwork(p);
-    //        p = p->next;
-    //    }
-    //}
     omp_set_num_threads(5);
 
 #pragma omp parallel
     {
-        int local_index = 0;  // Index to keep track of the node being processed
-        // Distribute work among threads using the 'for' directive
+
 #pragma omp for
-        for (local_index = 0; local_index < N; local_index++) {
-            struct node* local_p = head;
-            for (int i = 0; i < local_index; i++) {
-                local_p = local_p->next;
+        for (count = 0; count < N; count++) {
+            struct node* parr = head;
+            for (int i = 0; i <= count; i++) {
+                parr = parr->next;
             }
-            processwork(local_p);
+            processwork(parr);
         }
     }
 
@@ -103,7 +136,69 @@ int main(int argc, char* argv[]) {
     }
     free(p);
 
-    printf("Compute Time: %f seconds\n", end - start);
+    printf("Parallel: Compute Time: %f seconds\n", end - start);
+}
+
+void parallelAnswer() {
+    double start, end;
+    struct node* p = NULL;
+    struct node* temp = NULL;
+    struct node* head = NULL;
+    struct node* parr[MAX];
+    int i, count = 0;
+
+    printf("Process linked list\n");
+    printf("  Each linked list node will be processed by function 'processwork()'\n");
+    printf("  Each ll node will compute %d fibonacci numbers beginning with %d\n", N, FS);
+
+    p = init_list(p);
+    head = p;
+
+    p = head;
+
+    start = omp_get_wtime();
+    {
+        while (p != NULL) {
+            p = p->next;
+            count++;
+        }
+
+        p = head;
+        for (i = 0; i < count; i++) {
+            parr[i] = p;
+            p = p->next;
+        }
+
+        omp_set_num_threads(5);
+#pragma omp parallel
+        {
+#pragma omp for schedule(dynamic,5)
+            for (i = 0; i < count; i++)
+                processwork(parr[i]);
+        }
+    }
+    end = omp_get_wtime();
+    p = head;
+
+    while (p != NULL) {
+        printf("%d : %d\n", p->data, p->fibdata);
+        temp = p->next;
+        free(p);
+        p = temp;
+    }
+    free(p);
+
+    printf("Parellel Compute Time: %f seconds\n", end - start);
+
+}
+
+int main(int argc, char* argv[]) {
+    serial();
+    cout << "\n";
+    parallel();
+    cout << "\n";
+    cout << "\n";
+    parallelAnswer();
 
     return 0;
 }
